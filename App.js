@@ -1,13 +1,67 @@
 import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { StyleSheet, Text, View, SafeAreaView, FlatList } from 'react-native';
+
+
+
+
+const Item = ({ title }) => (
+  <View style={styles.item}>
+    <Text style={styles.title}>{title}</Text>
+  </View>
+);
+
+
+
+
+
 
 export default function App() {
+
+  console.log('i am');
+
+  const [getdata, setdata] = useState([])
+
+
+useEffect(()=>{
+
+  fetch('https://jsonplaceholder.typicode.com/users')
+  .then(res=>res.json())
+  .then(data=>{
+    console.log(data);
+  })
+  .catch(err=>{
+
+    console.log(err);
+  })
+
+
+},[])
+
+
+const renderItem = ({ item }) => (
+  <Item title={item.title} />
+);
+  
+
+
+
+
+
+
+
+
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <SafeAreaView>
+        <FlatList
+        data={getdata}
+        renderItem={renderItem}
+        keyExtractor={item => item.id}
+      />
+
+      
+
+    </SafeAreaView>
   );
 }
 
